@@ -1,0 +1,18 @@
+name: Release module
+
+on:
+  push:
+    tags:
+      - '*'
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    uses: InvoiceShelf/modules/.github/workflows/module-release.yml@3.6.0
+    with:
+      channel: stable
+      # The oldest InvoiceShelf release this version supports; the bundle is built against its composer.lock.
+      host-version: 3.0.0-alpha.13
+    secrets: inherit
