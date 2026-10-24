@@ -20,6 +20,8 @@ jobs:
           php-version: '8.4'
           extensions: sodium, dom, fileinfo, gd, iconv, libxml, mbstring, simplexml, zip, zlib
           coverage: none
+          # The Composer the SDK's release workflow pins, so CI resolves as a release does.
+          tools: composer:2.8.12
 
       - uses: pnpm/action-setup@v4
 

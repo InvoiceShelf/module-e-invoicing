@@ -21,7 +21,8 @@
         "ext-zip": "*",
         "ext-zlib": "*",
         "horstoeko/zugferd": "^1.0.133",
-        "invoiceshelf/modules": "^3.6"
+        "invoiceshelf/modules": "^3.6",
+        "symfony/yaml": "^7.4.18 || ^8.1.6"
     },
     "require-dev": {
         "laravel/pint": "^1.26",
