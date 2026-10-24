@@ -1,5 +1,7 @@
 # InvoiceShelf E-Invoicing module
 
+![An invoice whose PDF carries its EN 16931 XML, with the Download XML action](.github/assets/cover-2026-10.webp)
+
 EN 16931 e-invoices for InvoiceShelf 3. With the module enabled, an invoice PDF becomes a **ZUGFeRD / Factur-X hybrid e-invoice**: a PDF/A-3b file that people read and accounting software reads too, through the EN 16931 XML embedded in it as `factur-x.xml`. The same XML can be downloaded on its own from every invoice.
 
 - **Settings** (company settings, owners only): switch e-invoicing on, the IBAN and BIC the e-invoice asks to be paid to, and payment terms. A checklist shows what the company details still lack.
