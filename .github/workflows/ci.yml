@@ -39,14 +39,12 @@ jobs:
         run: composer install --no-interaction --prefer-dist
 
       - name: Fetch the host's 3.x lock and worked example
-        env:
-          # TEMPORARY: the worked example lands on 3.x with InvoiceShelf/InvoiceShelf#937; until then read it from that branch.
-          FIXTURE_REF: feat/module-document-seams
         run: |
-          curl --fail --silent --show-error --location --output "$RUNNER_TEMP/composer.lock" \
-            https://raw.githubusercontent.com/InvoiceShelf/InvoiceShelf/3.x/composer.lock
-          curl --fail --silent --show-error --location --output "$RUNNER_TEMP/invoice-document.standard.json" \
-            "https://raw.githubusercontent.com/InvoiceShelf/InvoiceShelf/${FIXTURE_REF}/tests/Fixtures/modules/invoice-document.standard.json"
+          for file in composer.lock tests/Fixtures/modules/invoice-document.standard.json; do
+            curl --fail --silent --show-error --location \
+              "https://raw.githubusercontent.com/InvoiceShelf/InvoiceShelf/3.x/$file" \
+              --output "$RUNNER_TEMP/$(basename "$file")"
+          done
 
       - name: The fixture is still the host's worked example
         run: diff -u "$RUNNER_TEMP/invoice-document.standard.json" tests/Fixtures/invoice-document.standard.json
