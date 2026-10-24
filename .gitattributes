@@ -1,0 +1,2 @@
+# Repository housekeeping that must not ship inside the marketplace archive.
+.github export-ignore
