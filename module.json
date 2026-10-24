@@ -17,7 +17,7 @@
     "requires": {},
     "schema_version": 2,
     "slug": "e-invoicing",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "license": "AGPL-3.0-only",
     "compatibility": {
         "invoiceshelf": ">=3.0.0-alpha.13 <4.0.0",
