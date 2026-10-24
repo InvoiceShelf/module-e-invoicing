@@ -35,16 +35,8 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      # TEMPORARY until SDK 3.6.0 is tagged (InvoiceShelf/modules#15): install
-      # its branch, then put composer.json back. Replace with a plain
-      # `composer install` and commit composer.lock once the tag exists.
       - name: Install PHP dependencies
-        run: |
-          cp composer.json "$RUNNER_TEMP/composer.json"
-          composer require --no-update "invoiceshelf/modules:dev-feat/invoice-documents as 3.6.0"
-          # Pin every bundled package to bundle.lock, which a lock-less update would drift from.
-          composer update --no-interaction --prefer-dist $(php -r '$lock = json_decode(file_get_contents("bundle.lock"), true); foreach ($lock["packages"] as $p) { echo " --with ".$p["name"].":".$p["version"]; }')
-          cp "$RUNNER_TEMP/composer.json" composer.json
+        run: composer install --no-interaction --prefer-dist
 
       - name: Fetch the host's 3.x lock and worked example
         env:
