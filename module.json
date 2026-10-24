@@ -1,0 +1,49 @@
+{
+    "name": "EInvoicing",
+    "alias": "einvoicing",
+    "description": "EN 16931 e-invoices for InvoiceShelf: invoice PDFs become ZUGFeRD / Factur-X hybrid e-invoices, with the XML available on its own.",
+    "keywords": [
+        "e-invoicing",
+        "zugferd",
+        "factur-x",
+        "en16931"
+    ],
+    "priority": 0,
+    "providers": [
+        "Modules\\EInvoicing\\Providers\\EInvoicingServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": {},
+    "schema_version": 2,
+    "slug": "e-invoicing",
+    "version": "0.1.0",
+    "license": "AGPL-3.0-only",
+    "compatibility": {
+        "invoiceshelf": ">=3.0.0-alpha.13 <4.0.0",
+        "module_api": "^1.5.0",
+        "php": "^8.4.0",
+        "extensions": [
+            "ext-dom",
+            "ext-fileinfo",
+            "ext-gd",
+            "ext-iconv",
+            "ext-json",
+            "ext-libxml",
+            "ext-mbstring",
+            "ext-simplexml",
+            "ext-zip",
+            "ext-zlib"
+        ]
+    },
+    "module_dependencies": {},
+    "migration_policy": "reversible",
+    "uninstall": {
+        "data_cleanup": "Modules\\EInvoicing\\Lifecycle\\DataCleanup"
+    },
+    "dependency_policy": "bundled",
+    "assets": [
+        "dist/init.js",
+        "dist/style.css"
+    ]
+}

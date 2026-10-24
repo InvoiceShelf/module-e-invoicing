@@ -1,0 +1,30 @@
+@reference "tailwindcss/theme.css";
+@import "tailwindcss/utilities" layer(utilities);
+
+@source "../js/**/*.vue";
+@source "../js/**/*.ts";
+
+/*
+ * The host's Tailwind build never sees module markup, so every utility the
+ * module uses comes from this stylesheet, mapped onto the host's theme tokens
+ * so light and dark mode follow the host.
+ */
+@theme inline reference {
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-surface: var(--color-surface);
+  --color-surface-secondary: var(--color-surface-secondary);
+  --color-heading: var(--color-heading);
+  --color-body: var(--color-body);
+  --color-muted: var(--color-muted);
+  --color-line-default: var(--color-line-default);
+  --color-status-green: var(--color-status-green);
+  --color-status-yellow: var(--color-status-yellow);
+  --color-alert-warning-bg: var(--color-alert-warning-bg);
+  --color-alert-warning-text: var(--color-alert-warning-text);
+  --color-alert-success-bg: var(--color-alert-success-bg);
+  --color-alert-success-text: var(--color-alert-success-text);
+  --color-alert-error-bg: var(--color-alert-error-bg);
+  --color-alert-error-text: var(--color-alert-error-text);
+}

@@ -1,0 +1,63 @@
+{
+    "name": "invoiceshelf/module-e-invoicing",
+    "description": "Official EN 16931 e-invoicing module for InvoiceShelf: ZUGFeRD / Factur-X hybrid invoice PDFs",
+    "license": "AGPL-3.0-only",
+    "authors": [
+        {
+            "name": "InvoiceShelf",
+            "email": "hello@invoiceshelf.com"
+        }
+    ],
+    "require": {
+        "php": "^8.4",
+        "ext-dom": "*",
+        "ext-fileinfo": "*",
+        "ext-gd": "*",
+        "ext-iconv": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-simplexml": "*",
+        "ext-zip": "*",
+        "ext-zlib": "*",
+        "horstoeko/zugferd": "^1.0.133",
+        "invoiceshelf/modules": "^3.6",
+        "symfony/yaml": "^7.4.18 || ^8.1.6"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.26",
+        "orchestra/testbench": "^11.0",
+        "phpunit/phpunit": "^12.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\EInvoicing\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\EInvoicing\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "lint": "vendor/bin/pint --test"
+    },
+    "config": {
+        "allow-plugins": {
+            "wikimedia/composer-merge-plugin": false
+        },
+        "platform": {
+            "php": "8.4.0"
+        },
+        "sort-packages": true
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true,
+    "repositories": {
+        "invoiceshelf-modules": {
+            "type": "vcs",
+            "url": "https://github.com/InvoiceShelf/modules.git"
+        }
+    }
+}

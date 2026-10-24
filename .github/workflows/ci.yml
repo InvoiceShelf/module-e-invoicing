@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: sodium, dom, fileinfo, gd, iconv, libxml, mbstring, simplexml, zip, zlib
+          coverage: none
+          # The Composer the SDK's release workflow pins, so CI resolves as a release does.
+          tools: composer:2.8.12
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install PHP dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Fetch the host's 3.x lock and worked example
+        run: |
+          for file in composer.lock tests/Fixtures/modules/invoice-document.standard.json; do
+            curl --fail --silent --show-error --location \
+              "https://raw.githubusercontent.com/InvoiceShelf/InvoiceShelf/3.x/$file" \
+              --output "$RUNNER_TEMP/$(basename "$file")"
+          done
+
+      - name: The fixture is still the host's worked example
+        run: diff -u "$RUNNER_TEMP/invoice-document.standard.json" tests/Fixtures/invoice-document.standard.json
+
+      - name: Build the bundle from bundle.lock
+        # Against the host's 3.x branch: a bundle that no longer fits the next
+        # host release fails here before it fails a release.
+        run: vendor/bin/invoiceshelf-module bundle . --host-lock="$RUNNER_TEMP/composer.lock"
+
+      - name: Verify PHP and package contracts
+        run: |
+          composer run lint
+          composer run test
+          vendor/bin/invoiceshelf-module validate-module module.json
+          vendor/bin/invoiceshelf-module validate-package .
+
+      - name: Check the EN 16931 business rules
+        env:
+          MUSTANG_VERSION: 2.25.0
+        run: |
+          curl --fail --silent --show-error --location --output "$RUNNER_TEMP/Mustang-CLI.jar" \
+            "https://github.com/ZUGFeRD/mustangproject/releases/download/core-${MUSTANG_VERSION}/Mustang-CLI-${MUSTANG_VERSION}.jar"
+          MUSTANG_JAR="$RUNNER_TEMP/Mustang-CLI.jar" vendor/bin/phpunit --group schematron
+
+      - name: Verify frontend
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run lint
+          pnpm exec tsc --noEmit
+          pnpm run build
+          git diff --exit-code -- dist
